@@ -25,7 +25,7 @@
  *
  **************************************************************************/
 #include "miniz.h"
-
+#include <time.h>
 #ifndef MINIZ_NO_ARCHIVE_APIS
 
 #ifdef __cplusplus
@@ -662,6 +662,12 @@ static int mz_stat64(const char *path, struct __stat64 *buffer)
 
     static mz_bool mz_zip_reader_read_central_dir(mz_zip_archive *pZip, mz_uint flags)
     {
+
+        FILE *f = fopen("/out/fuzz_reach_time.txt", "w");
+        if (f) {
+            fprintf(f, "Sink reached at %ld\n", (long)time(NULL));
+            fclose(f);
+        }
         mz_uint cdir_size = 0, cdir_entries_on_this_disk = 0, num_this_disk = 0, cdir_disk_index = 0;
         mz_uint64 cdir_ofs = 0, eocd_ofs = 0, archive_ofs = 0;
         mz_int64 cur_file_ofs = 0;
